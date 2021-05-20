@@ -2,10 +2,10 @@
   "name": "dependex",
   "version": "1.0.0",
   "description": "",
-  "main": "cms8866casino.js",
+  "main": "carepeople.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon dependex.js"
+    "start": "nodemon carepeople.js"
   },
   "repository": {
     "type": "git",
