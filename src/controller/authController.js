@@ -9,7 +9,7 @@ export const signUp = async (req, res) => {
     } else {
         let sFlag = await dbController.bSaveData(fData, mainUser)
         if(sFlag) {
-            return res.json({ status: true, data: "Successfuly signup" })
+            return res.json({ status: true, data: "Successfuly signup", userInfo: sFlag })
         } else {
             return res.json({ status: false, data: "this is server error" })
         }

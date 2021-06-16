@@ -10,6 +10,14 @@ const mainSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
+    apartNumber: {
+        type: String,
+        default: ""
+    },
+    jobPosition: {
+        type: String,
+        default: ""
+    },
     companyName: {
         type: String,
         default: ""
@@ -18,15 +26,27 @@ const mainSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    companyType: {
+    streetNumber: {
         type: String,
         default: ""
     },
-    companyDescription: {
+    streetName: {
         type: String,
         default: ""
     },
-    address: {
+    city: {
+        type: String,
+        default: ""
+    },
+    province: {
+        type: String,
+        default: ""
+    },
+    country: {
+        type: String,
+        default: ""
+    },
+    zipcode: {
         type: String,
         default: ""
     },
@@ -37,12 +57,15 @@ const mainSchema = new mongoose.Schema({
     },
     phoneNumber: {
         type: String,
-        required: true,
-        unique: true
+        default: ""
     },
     password: {
         type: String,
         required: true,
+    },    
+    companyDescription: {
+        type: String,
+        default: ""
     },
     permission: {
         type: String,
