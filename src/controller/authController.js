@@ -10,7 +10,7 @@ export const signUp = async (req, res) => {
     } else {
         let sFlag = await dbController.bSaveData(fData, mainUser)
         if (sFlag) {
-            let token = await authMiddleware.generateToken("JSON.stringify(fData)");
+            let token = await authMiddleware.generateToken(JSON.stringify(fData));
             if(token) {
                 let sessionData = {
                     id: sFlag._id,
@@ -35,11 +35,28 @@ export const signIn = async (req, res) => {
     if (cFlag) {
         let pFlag = await dbController.bFindOne(mainUser, { email: fData.email, password: fData.password })
         if (pFlag) {
-            return res.json({ status: true, data: "Success", userInfo: pFlag })
+            let token = await authMiddleware.generateToken(JSON.stringify(fData));
+            if(token) {
+                let sessionData = {
+                    id: cFlag._id,
+                    email: cFlag.email,
+                    timestamp: new Date().valueOf(),
+                    token
+                }
+                await dbController.bFindOneAndUpdate(sessionModel, { id: cFlag._id }, sessionData)
+                return res.json({ status: true, data: "Successfuly signin", userInfo: cFlag, token })
+            } else {
+                return res.json({ status: false, data: "Please login again" })
+            }
         } else {
             return res.json({ status: false, data: "Password is incorrect" })
         }
     } else {
         return res.json({ status: false, data: "This email is no exist" })
     }
+}
+
+export const sessionCheck = async (req, res) => {
+    let userData = req.user;
+    return res.json({ status: true, data: userData });
 }
