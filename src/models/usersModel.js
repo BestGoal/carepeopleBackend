@@ -67,9 +67,17 @@ const mainSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
+    siteNotes: {
+        type: String,
+        default: ""
+    },
     permission: {
         type: String,
         required: true,
+    },
+    avatar: {
+        type: String,
+        default: "avatar/avatar.webp"
     }
 });
 
