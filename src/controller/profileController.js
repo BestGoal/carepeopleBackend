@@ -6,13 +6,13 @@ import config from "../../serverConf"
 export const updateProfile = async (req, res) => {
     let { id, data } = req.body;
     data = JSON.parse(data);
-    if(req.files.length) {
-        data.avatar = "avatar/" + req.files[0].filename;
-    }
     let cUser = await dbController.bFindOne(mainUser, { _id: id });
     if(cUser) {
-        if(cUser.avatar && cUser.avatar != "avatar/avatar.webp") {
-            await fs.unlink(config.DIR + "/uploads/" + cUser.avatar, async (err) => { })
+        if(req.files.length) {
+            data.avatar = "avatar/" + req.files[0].filename;
+            if(cUser.avatar && cUser.avatar != "avatar/avatar.webp") {
+                await fs.unlink(config.DIR + "/uploads/" + cUser.avatar, async (err) => { })
+            }
         }
         let flag = await dbController.bFindOneAndUpdate(mainUser, { _id: id }, data);
         if(flag) {

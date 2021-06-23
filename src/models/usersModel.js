@@ -62,7 +62,7 @@ const mainSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-    },    
+    },
     companyDescription: {
         type: String,
         default: ""
@@ -78,7 +78,28 @@ const mainSchema = new mongoose.Schema({
     avatar: {
         type: String,
         default: "avatar/avatar.webp"
-    }
+    },
+    mailing: {
+        type: String,
+        default: ""
+    },
+    school: {
+        type: String,
+        default: ""
+    },
+    degree: {
+        type: String,
+        default: ""
+    },
+    study_type: {
+        type: String,
+        default: ""
+    },
+    study_year: {
+        type: String,
+        default: ""
+    },
+
 });
 
 export const mainUser = mongoose.model(tblConfig.mainuser, mainSchema);
