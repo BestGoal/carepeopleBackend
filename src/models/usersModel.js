@@ -98,8 +98,7 @@ const mainSchema = new mongoose.Schema({
     study_year: {
         type: String,
         default: ""
-    },
-
+    }
 });
 
 export const mainUser = mongoose.model(tblConfig.mainuser, mainSchema);
