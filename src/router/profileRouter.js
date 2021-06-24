@@ -12,7 +12,6 @@ const documentUploader = new ImageUploader(path.join(config.DIR, "uploads/docume
 
 Router.post("/update", tokenMiddleware.check_token, multer({ storage: avatarUploader.storage, fileFilter: avatarUploader.filter }).any(), profileController.updateProfile);
 Router.get("/document", tokenMiddleware.check_token, profileController.getDocument);
-Router.get("/document/download", tokenMiddleware.check_token, profileController.downloadDocument);
 Router.get("/document/:id", tokenMiddleware.check_token, profileController.getDocumentWithId);
 Router.delete("/document", tokenMiddleware.check_token, profileController.deleteDocument);
 Router.post("/document", tokenMiddleware.check_token, multer({ storage: documentUploader.storage, fileFilter: documentUploader.filter }).any(), profileController.addDocument);
