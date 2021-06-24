@@ -117,6 +117,6 @@ export const downloadDocument = (req, res) => {
     let parsedUrl = url.parse(req.url,true).query
     if(parsedUrl.url) {
         console.log(config.DIR + "/uploads" + parsedUrl.url)
-        res.download(config.DIR + "/uploads" + parsedUrl.url)
+        res.download(config.DIR + "/uploads" + parsedUrl.url, "aaa.pdf", {})
     }
 }
