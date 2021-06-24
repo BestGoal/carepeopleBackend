@@ -8,7 +8,8 @@ class UploaderManager {
                 cb(null, filePath);
             },
             filename: function (req, file, cb) {
-                cb(null, Date.now() + '.' + file.mimetype.split('/')[1]);
+                console.log(file)
+                cb(null, Date.now() + '.' + file.originalname.split('.')[file.originalname.split('.').length-1]);
             }
         });
     }

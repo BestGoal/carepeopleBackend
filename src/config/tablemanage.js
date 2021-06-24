@@ -1,4 +1,5 @@
 module.exports = {
     mainuser: "user_user",
-    sessionuser: "user_session"
+    sessionuser: "user_session",
+    workerDOcument: "user_document"
 }
