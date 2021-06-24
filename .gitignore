@@ -33,6 +33,7 @@ bower_components
 build/Release
 dist
 client
+uploads
 
 # Dependency directories
 node_modules/
