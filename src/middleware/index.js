@@ -27,11 +27,9 @@ export const check_token = async (req, res, next) => {
 
 export const generateToken = async function (data) {
     try {
-        console.log(data)
         let token = jsonwebtoken.sign(data, String(new Date().valueOf()));
         return token;
     } catch (e) {
-        console.log(e)
         return false;
     }
 }

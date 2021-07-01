@@ -10,22 +10,6 @@ const mainSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    apartNumber: {
-        type: String,
-        default: ""
-    },
-    jobPosition: {
-        type: String,
-        default: ""
-    },
-    companyName: {
-        type: String,
-        default: ""
-    },
-    companyWebsite: {
-        type: String,
-        default: ""
-    },
     streetNumber: {
         type: String,
         default: ""
@@ -63,6 +47,27 @@ const mainSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    permission: {
+        type: String,
+        required: true,
+    },
+    avatar: {
+        type: String,
+        default: "avatar/avatar.webp"
+    },
+    status: {
+        type: String,
+        required: "allow",
+    },
+
+    companyName: {
+        type: String,
+        default: ""
+    },
+    companyWebsite: {
+        type: String,
+        default: ""
+    },
     companyDescription: {
         type: String,
         default: ""
@@ -71,13 +76,14 @@ const mainSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    permission: {
+
+    apartNumber: {
         type: String,
-        required: true,
+        default: ""
     },
-    avatar: {
+    jobPosition: {
         type: String,
-        default: "avatar/avatar.webp"
+        default: ""
     },
     mailing: {
         type: String,
@@ -98,7 +104,11 @@ const mainSchema = new mongoose.Schema({
     study_year: {
         type: String,
         default: ""
-    }
+    },
+    work_status: {
+        type: String,
+        required: "unapprove",
+    },
 });
 
 export const mainUser = mongoose.model(tblConfig.mainuser, mainSchema);

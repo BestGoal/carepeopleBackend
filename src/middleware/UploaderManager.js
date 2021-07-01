@@ -8,7 +8,6 @@ class UploaderManager {
                 cb(null, filePath);
             },
             filename: function (req, file, cb) {
-                console.log(file)
                 cb(null, Date.now() + '.' + file.originalname.split('.')[file.originalname.split('.').length-1]);
             }
         });

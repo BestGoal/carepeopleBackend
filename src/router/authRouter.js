@@ -6,6 +6,7 @@ const Router = routerx();
 
 Router.post("/signup", authController.signUp);
 Router.post("/signin", authController.signIn);
+Router.post("/adminlogin", authController.adminlogin);
 Router.get("/sessionCheck",  tokeMiddleware.check_token, authController.sessionCheck);
  
 export default Router;
