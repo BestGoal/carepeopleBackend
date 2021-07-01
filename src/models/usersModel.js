@@ -57,7 +57,7 @@ const mainSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        required: "allow",
+        default: "allow",
     },
 
     companyName: {
@@ -107,7 +107,7 @@ const mainSchema = new mongoose.Schema({
     },
     work_status: {
         type: String,
-        required: "unapprove",
+        default: "unapprove",
     },
 });
 
