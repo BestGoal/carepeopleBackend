@@ -18,6 +18,10 @@ const mainSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    duty: {
+        type: Number,
+        required: true
+    },
     dateType: {
         type: Boolean,
         required: true

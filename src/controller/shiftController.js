@@ -11,3 +11,13 @@ export const createShift = async (req, res) => {
         return res.json({ status: false, data: "Failure" })
     }
 }
+
+export const getShift = async (req, res) => {
+    let user = req.user
+    let data = await dbController.bFind(shiftListModel, { clientid: user._id, status: "post" })
+    if(data) {
+        return res.json({ status: true, data: data })
+    } else {
+        return res.json({ status: false, data: "Failure" })
+    }
+}
