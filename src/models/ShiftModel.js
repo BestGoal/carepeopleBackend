@@ -22,6 +22,10 @@ const mainSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    covid: {
+        type: Number,
+        required: true
+    },
     dateType: {
         type: Boolean,
         required: true
@@ -52,7 +56,7 @@ const mainSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        default: "post" //post, inprogress, finished
+        default: "post" //post, inprogress, finished, removed
     },
     workers: {
         type: Array,
