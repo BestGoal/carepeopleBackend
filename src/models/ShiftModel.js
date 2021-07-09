@@ -38,10 +38,6 @@ const mainSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    eventName: {
-        type: String,
-        default: ""
-    },
     unpaid_break: {
         type: Number,
         required: true
@@ -56,11 +52,14 @@ const mainSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        default: "post" //post, inprogress, finished, removed
+        default: "post" //post, schedule, inprogress, finished, removed
     },
-    workers: {
+    worker: {
+        type: mongoose.Types.ObjectId,
+    },
+    block_workers: {
         type: Array,
-        required: true
+        default: []
     }
 }, {
     timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }
