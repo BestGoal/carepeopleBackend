@@ -12,15 +12,7 @@ export const getShift = async (req, res) => {
                 $and: [
                     {
                         job_position: Number(user.jobPosition),
-                        $or: [
-                            {
-                                status: "post"
-                            },
-                            {
-                                status: "mcschedule"
-                            }
-                        ]
-
+                        status: "post"
                     }
                 ]
             }
@@ -93,4 +85,21 @@ export const getCurrentShift = async (req, res) => {
     } else {
         return res.json({ status: false, data: "Failure" })
     }
+}
+
+export const cancelShift = async (req, res) => {
+    let { id } = req.body
+    let shift = await dbController.bFindOne(shiftListModel, { _id: id });
+    if(shift) {
+        let blockWorkers = shift.block_workers;
+        blockWorkers.push(shift.worker)
+        let flag = await dbController.bFindOneAndUpdate(shiftListModel, { _id: id }, { status: "post", worker: null, block_workers: blockWorkers })
+        if(flag) {
+            return getCurrentShift(req, res)
+        } else {
+            return res.json({ status: false, data: "Failure" })
+        }
+    } else {
+        return res.json({ status: false, data: "Failure" })
+    }   
 }

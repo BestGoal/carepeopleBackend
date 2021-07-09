@@ -69,7 +69,18 @@ export const getCurrentShift = async (req, res) => {
                     }
                 ]
             }
-        }
+        },
+        {
+            $lookup: {
+                from: "user_users",
+                localField: "worker",
+                foreignField: "_id",
+                as: "workerData"
+            }
+        },
+        {
+            $unwind: "$workerData"
+        },
     ])
     if (data) {
         return res.json({ status: true, data: data })
