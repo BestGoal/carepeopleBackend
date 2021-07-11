@@ -58,7 +58,7 @@ const mainSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
     },
     block_workers: {
-        type: Array,
+        type: Object,
         default: []
     }
 }, {

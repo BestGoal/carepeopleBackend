@@ -90,12 +90,12 @@ export const getCurrentShift = async (req, res) => {
 }
 
 export const cancelCurrentShift = async (req, res) => {
-    let { id } = req.body
+    let { id, worker } = req.body
     let shift = await dbController.bFindOne(shiftListModel, { _id: id });
     if(shift) {
         let blockWorkers = shift.block_workers;
-        blockWorkers.push(shift.worker)
-        let flag = await dbController.bFindOneAndUpdate(shiftListModel, { _id: id }, { status: "post", worker: null, block_workers: blockWorkers })
+        blockWorkers[worker] = true
+        let flag = await dbController.bFindOneAndUpdate(shiftListModel, { _id: id, worker }, { status: "post", worker: null, block_workers: blockWorkers })
         if(flag) {
             return getCurrentShift(req, res)
         } else {

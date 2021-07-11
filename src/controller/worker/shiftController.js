@@ -45,11 +45,11 @@ export const getShift = async (req, res) => {
 export const acceptShift = async (req, res) => {
     let shift = req.body;
     let flag = await dbController.bFindOneAndUpdate(
-        shiftListModel, 
-        { _id: shift._id }, 
-        { worker: mongoose.Types.ObjectId(req.user._id), status: 'schedule'}
+        shiftListModel,
+        { _id: shift._id },
+        { worker: mongoose.Types.ObjectId(req.user._id), status: 'schedule' }
     )
-    if(flag) {
+    if (flag) {
         return res.json({ status: true, data: "Success" })
     } else {
         return res.json({ status: false, data: "Failure" })
@@ -90,16 +90,23 @@ export const getCurrentShift = async (req, res) => {
 export const cancelShift = async (req, res) => {
     let { id } = req.body
     let shift = await dbController.bFindOne(shiftListModel, { _id: id });
-    if(shift) {
+    if (shift) {
         let blockWorkers = shift.block_workers;
-        blockWorkers.push(shift.worker)
-        let flag = await dbController.bFindOneAndUpdate(shiftListModel, { _id: id }, { status: "post", worker: null, block_workers: blockWorkers })
-        if(flag) {
+        blockWorkers[shift.worker] = true
+        let flag = await dbController.bFindOneAndUpdate(shiftListModel, { _id: id, worker: req.user._id }, { status: "post", worker: null, block_workers: blockWorkers })
+        if (flag) {
             return getCurrentShift(req, res)
         } else {
             return res.json({ status: false, data: "Failure" })
         }
     } else {
         return res.json({ status: false, data: "Failure" })
-    }   
+    }
+}
+
+export const clickIn = async (req, res) => {
+    let { id } = req.body;
+    let userid = req.user._id
+    let shift = await dbController.bFindOne(shiftListModel, { _id: id });
+    console.log(shift)
 }
