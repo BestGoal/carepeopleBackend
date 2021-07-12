@@ -106,7 +106,93 @@ export const cancelShift = async (req, res) => {
 
 export const clickIn = async (req, res) => {
     let { id } = req.body;
-    let userid = req.user._id
     let shift = await dbController.bFindOne(shiftListModel, { _id: id });
-    console.log(shift)
+    for (let i = 0; i < shift.date.length; i++) {
+        let date = shift.date[i]
+        if (!date.isFinish) {
+            date.startTime = new Date().valueOf();
+            date.time = 0;
+            date.isFinish = false;
+            shift.date[i] = date;
+            break;
+        }
+    }
+    let flag = await dbController.bFindOneAndUpdate(shiftListModel, { _id: id }, { date: shift.date, status: "inprogress" })
+    if (flag) {
+        return res.json({ status: true, data: "Success" })
+    } else {
+        return res.json({ status: false, data: "Failure" })
+    }
+}
+
+export const getProgresShift = async (req, res) => {
+    let data = await shiftListModel.aggregate([
+        {
+            $match: {
+                $and: [
+                    {
+                        worker: mongoose.Types.ObjectId(req.user._id),
+                        status: "inprogress"
+                    }
+                ]
+            }
+        },
+        {
+            $lookup: {
+                from: "user_users",
+                localField: "clientid",
+                foreignField: "_id",
+                as: "clientData"
+            }
+        },
+        {
+            $unwind: "$clientData"
+        },
+    ])
+    
+    for (let i = 0; i < data.length; i++) {
+        for(let j = 0 ; j < data[i].date.length ; j ++) {
+            if(!data[i].date[j].isFinish) {
+                let timeMinute = Math.round((new Date().valueOf() - data[i].date[j].startTime) / 60000)
+                let cMinute = timeMinute % 60
+                let cHour = String(timeMinute / 60).split(".")[0]
+                data[i].date[j].currentTime = cHour + ":" + cMinute
+            }
+        }
+    }
+    
+    if (data) {
+        return res.json({ status: true, data: data })
+    } else {
+        return res.json({ status: false, data: "Failure" })
+    }
+}
+
+export const clickOut = async (req, res) => {
+    let { id } = req.body;
+    let shift = await dbController.bFindOne(shiftListModel, { _id: id });
+    let fFlag = false;
+    for (let i = 0; i < shift.date.length; i++) {
+        let date = shift.date[i]
+        if (!date.isFinish) {
+            date.time = Math.round((new Date().valueOf() - date.startTime) / 60000)
+            date.isFinish = true;
+            shift.date[i] = date;
+            if(shift.date.length - 1 == i) {
+                fFlag = true
+            }
+            break;
+        }
+    }
+    let flag = false;
+    if(fFlag) {
+        flag = await dbController.bFindOneAndUpdate(shiftListModel, { _id: id }, { date: shift.date, status: "finished" })
+    } else {
+        flag = await dbController.bFindOneAndUpdate(shiftListModel, { _id: id }, { date: shift.date, status: "schedule" })
+    }
+    if (flag) {
+        return res.json({ status: true, data: "Success" })
+    } else {
+        return res.json({ status: false, data: "Failure" })
+    }
 }

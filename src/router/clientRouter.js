@@ -9,5 +9,6 @@ Router.post("/get-shift", tokeMiddleware.check_token, shiftController.getShift);
 Router.post("/remove-shift", tokeMiddleware.check_token, shiftController.removeShift);
 Router.post("/get-current-shift", tokeMiddleware.check_token, shiftController.getCurrentShift);
 Router.post("/cancel-current-shift", tokeMiddleware.check_token, shiftController.cancelCurrentShift);
+Router.post("/get-progress-shift", tokeMiddleware.check_token, shiftController.getProgressShift);
  
 export default Router;

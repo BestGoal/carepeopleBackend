@@ -105,3 +105,47 @@ export const cancelCurrentShift = async (req, res) => {
         return res.json({ status: false, data: "Failure" })
     }
 }
+
+export const getProgressShift = async (req, res) => {
+    let user = req.user
+    let data = await shiftListModel.aggregate([
+        {
+            $match: {
+                $and: [
+                    {
+                        clientid: mongoose.Types.ObjectId(user._id), 
+                        status: "inprogress"
+                    }
+                ]
+            }
+        },
+        {
+            $lookup: {
+                from: "user_users",
+                localField: "worker",
+                foreignField: "_id",
+                as: "workerData"
+            }
+        },
+        {
+            $unwind: "$workerData"
+        },
+    ])
+
+    for (let i = 0; i < data.length; i++) {
+        for(let j = 0 ; j < data[i].date.length ; j ++) {
+            if(!data[i].date[j].isFinish) {
+                let timeMinute = Math.round((new Date().valueOf() - data[i].date[j].startTime) / 60000)
+                let cMinute = timeMinute % 60
+                let cHour = String(timeMinute / 60).split(".")[0]
+                data[i].date[j].currentTime = cHour + ":" + cMinute
+            }
+        }
+    }
+
+    if (data) {
+        return res.json({ status: true, data: data })
+    } else {
+        return res.json({ status: false, data: "Failure" })
+    }
+}
